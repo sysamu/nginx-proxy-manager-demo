@@ -1,79 +1,150 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hola Node</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hello Node</title>
   <style>
-    * {
-      margin: 0; padding: 0; box-sizing: border-box;
+    :root {
+      --bg-dark: radial-gradient(circle, #1d1f20, #111);
+      --bg-light: #f0f0f0;
+      --text-dark: #fff;
+      --text-light: #1a1a1a;
+      --primary-dark: #68a063;
+      --primary-light: #2e7d32;
     }
 
     body {
-      font-family: 'Inter', sans-serif;
+      margin: 0;
       height: 100vh;
-      background: linear-gradient(-45deg, #1a1a40, #2d2d70, #4a90e2, #00bcd4);
-      background-size: 400% 400%;
-      animation: gradient 15s ease infinite;
+      background: var(--bg-dark);
       display: flex;
-      justify-content: center;
       align-items: center;
-      color: white;
+      justify-content: center;
+      font-family: 'Segoe UI', sans-serif;
+      color: var(--text-dark);
+      transition: background 0.5s ease, color 0.5s ease;
+    }
+
+    .light-mode {
+      background: var(--bg-light);
+      color: var(--text-light);
+    }
+
+    .container {
       text-align: center;
-      padding: 2rem;
+      z-index: 1;
     }
 
-    @keyframes gradient {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    .atom {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      position: relative;
+      margin: 0 auto 20px;
+      animation: rotate 4s linear infinite;
     }
 
-    .content {
-      max-width: 600px;
+    .orbit {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      border: 2px dashed var(--primary-dark);
+      border-radius: 50%;
+    }
+
+    .light-mode .orbit {
+      border-color: var(--primary-light);
+    }
+
+    .orbit:nth-child(2) {
+      transform: rotateX(75deg);
+    }
+
+    .orbit:nth-child(3) {
+      transform: rotateY(75deg);
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
 
     h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
+      font-size: 2.5rem;
+      margin: 0;
+      color: var(--primary-dark);
+    }
+
+    .light-mode h1 {
+      color: var(--primary-light);
     }
 
     p {
-      font-size: 1.2rem;
-      margin-bottom: 2rem;
-      opacity: 0.85;
+      color: inherit;
     }
 
-    a.button {
-      background: white;
-      color: #1a1a40;
-      padding: 0.75rem 1.5rem;
+    .fade-in {
+      opacity: 0;
+      animation: fadeIn 2s ease-in-out forwards;
+      animation-delay: 0.5s;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    .toggle-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: 2px solid currentColor;
+      padding: 8px 12px;
       border-radius: 8px;
-      font-weight: bold;
-      text-decoration: none;
-      transition: 0.3s ease;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
     }
 
-    a.button:hover {
-      background: #f2f2f2;
+    .toggle-btn:hover {
+      background-color: rgba(255, 255, 255, 0.1);
     }
 
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 2.2rem;
-      }
-      p {
-        font-size: 1rem;
-      }
+    .light-mode .toggle-btn:hover {
+      background-color: rgba(0, 0, 0, 0.1);
     }
   </style>
 </head>
 <body>
-  <div class="content">
-    <h1>¡Hola desde Node.js 🚀</h1>
-    <p>Esta es una landing page demo, servida desde Express, con estilo moderno y animación suave.</p>
-    <a class="button" href="https://github.com/">Ver más en GitHub</a>
+  <button class="toggle-btn" onclick="toggleMode()">🌓 Modo</button>
+
+  <div class="container fade-in">
+    <div class="atom">
+      <div class="orbit"></div>
+      <div class="orbit"></div>
+      <div class="orbit"></div>
+    </div>
+    <h1>Hello from Node</h1>
+    <p>Tu backend está vivo y coleando ⚡</p>
   </div>
+
+  <script>
+    const body = document.body;
+
+    function toggleMode() {
+      body.classList.toggle('light-mode');
+      localStorage.setItem('mode', body.classList.contains('light-mode') ? 'light' : 'dark');
+    }
+
+    // Cargar modo anterior si existe
+    window.onload = () => {
+      const saved = localStorage.getItem('mode');
+      if (saved === 'light') {
+        body.classList.add('light-mode');
+      }
+    }
+  </script>
 </body>
 </html>
