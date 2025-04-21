@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    container_name: hello-node
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    networks:
+      - npm-network
+
+networks:
+  npm-network:
+    external: true
