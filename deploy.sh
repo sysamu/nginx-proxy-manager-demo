@@ -13,7 +13,7 @@ fi
 
 echo "🚀 Levantando NGINX Proxy Manager..."
 cd ./nginx-proxy-manager
-docker-compose up -d
+docker compose up -d
 
 echo "⏳ Esperando a que NGINX Proxy Manager esté listo..."
 until curl -s http://localhost:81 > /dev/null; do
@@ -26,7 +26,7 @@ echo "✅ NGINX Proxy Manager está activo"
 
 echo "🟢 Levantando app Node..."
 cd ../node-app
-docker-compose up -d
+docker compose up -d
 
 echo ""
 echo "🌍 Todo desplegado correctamente."
@@ -38,5 +38,4 @@ echo "🔐 Primer login por defecto:"
 echo "   Usuario: admin@example.com"
 echo "   Contraseña: changeme"
 echo "------------------------------------------------"
-echo "🛡️ Recordá configurar tus certificados con mkcert o Let's Encrypt si apuntás dominios reales."
-echo "------------------------------------------------"
+echo "🛡️ Recordá configurar tus certificados con mkcert o Let's Encrypt si usás dominios reales."
